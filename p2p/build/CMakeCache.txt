@@ -231,6 +231,9 @@ _MbedTLS_LIBRARY:FILEPATH=/usr/local/lib/libmbedtls.so
 //Path to a library.
 _MbedX509_LIBRARY:FILEPATH=/usr/local/lib/libmbedx509.so
 
+//The directory containing a CMake configuration file for bzrtp.
+bzrtp_DIR:PATH=bzrtp_DIR-NOTFOUND
+
 //The directory containing a CMake configuration file for liboqs.
 liboqs_DIR:PATH=/usr/local/lib/cmake/liboqs
 
@@ -383,8 +386,6 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: DTLS_SRTP_AVAILABLE
-DTLS_SRTP_AVAILABLE-ADVANCED:INTERNAL=1
 //Have symbol mbedtls_ssl_conf_dtls_srtp_protection_profiles
 DTLS_SRTP_AVAILABLE:INTERNAL=
 //Details about finding MbedTLS
