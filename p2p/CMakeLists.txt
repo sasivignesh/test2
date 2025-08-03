@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(p2p_call C)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(BZRTP REQUIRED bzrtp)
+pkg_check_modules(BZRTP REQUIRED libbzrtp)
 pkg_check_modules(BCTOOLBOX REQUIRED bctoolbox)
 pkg_check_modules(ORTP REQUIRED ortp)
 pkg_check_modules(SRTP REQUIRED libsrtp2)
