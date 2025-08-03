@@ -1,0 +1,6 @@
+[submodule "ortp"]
+	path = ortp
+	url = https://gitlab.linphone.org/BC/public/ortp.git
+[submodule "bctoolbox"]
+	path = bctoolbox
+	url = https://gitlab.linphone.org/BC/public/bctoolbox.git
