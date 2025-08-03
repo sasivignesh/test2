@@ -1,27 +1,72 @@
 #include <ortp/ortp.h>
+#include <ortp/payloadtype.h>
 #include <bzrtp/bzrtp.h>
 #include <srtp2/srtp.h>
 #include <alsa/asoundlib.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <string.h>
+
+#define ZRTP_PAYLOAD_TYPE 106
 
 typedef struct {
     RtpSession *rtp;
     srtp_t srtp;
 } RtpUserData;
 
-static int rtp_send(bzrtpContext_t *ctx, const uint8_t *msg, size_t len) {
-    RtpSession *s = (RtpSession*)bzrtp_getUserData(ctx);
-    return rtp_session_send_with_ts(s, msg, len, 0);
-    RtpUserData *ud = (RtpUserData*)bzrtp_getUserData(ctx);
-    int out_len = (int)len;
-    if (ud->srtp) {
-        uint8_t *buf = (uint8_t*)msg; /* SRTP modifies packet in place */
-        if (srtp_protect(ud->srtp, buf, &out_len) != srtp_err_status_ok)
-            return -1;
-        return rtp_session_send_with_ts(ud->rtp, buf, out_len, 0);
+static int rtp_send(void *clientData, const uint8_t *packet, uint16_t len) {
+    RtpUserData *ud = (RtpUserData *)clientData;
+    rtp_session_send_with_ts(ud->rtp, packet, len, 0);
+    return 0;
+}
+
+static int start_srtp(void *clientData, const bzrtpSrtpSecrets_t *secrets, int32_t verified) {
+    RtpUserData *ud = (RtpUserData *)clientData;
+    srtp_policy_t inbound = {0}, outbound = {0};
+    uint8_t in_key[64];
+    memcpy(in_key, secrets->peerSrtpKey, secrets->peerSrtpKeyLength);
+    memcpy(in_key + secrets->peerSrtpKeyLength, secrets->peerSrtpSalt, secrets->peerSrtpSaltLength);
+    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&inbound.rtp);
+    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&inbound.rtcp);
+    inbound.ssrc.type = ssrc_any_inbound;
+    inbound.key = in_key;
+    inbound.window_size = 128;
+    inbound.next = &outbound;
+
+    uint8_t out_key[64];
+    memcpy(out_key, secrets->selfSrtpKey, secrets->selfSrtpKeyLength);
+    memcpy(out_key + secrets->selfSrtpKeyLength, secrets->selfSrtpSalt, secrets->selfSrtpSaltLength);
+    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&outbound.rtp);
+    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&outbound.rtcp);
+    outbound.ssrc.type = ssrc_any_outbound;
+    outbound.key = out_key;
+    outbound.window_size = 128;
+    outbound.next = NULL;
+
+    srtp_create(&ud->srtp, &inbound);
+    return 0;
+}
+
+struct send_ctx { RtpSession *rtp; srtp_t srtp; snd_pcm_t *cap; };
+
+static void *send_thread(void *p) {
+    struct send_ctx *c = p;
+    const int FRAME = 160;
+    uint8_t buf[FRAME*2];
+    uint32_t ts = 0;
+    while (1) {
+        int got = snd_pcm_readi(c->cap, buf, FRAME);
+        if (got > 0) {
+            mblk_t *mp = rtp_session_create_packet(c->rtp, 12, buf, got*2);
+            int len = msgdsize(mp);
+            if (srtp_protect(c->srtp, mp->b_rptr, &len) == srtp_err_status_ok) {
+                mp->b_wptr = mp->b_rptr + len;
+                rtp_session_sendm_with_ts(c->rtp, mp, ts);
+            } else freemsg(mp);
+            ts += got;
+        }
     }
-    return rtp_session_send_with_ts(ud->rtp, msg, len, 0);
+    return NULL;
 }
 
 int main(int argc, char **argv) {
@@ -29,25 +74,24 @@ int main(int argc, char **argv) {
     const char *peer_ip = argv[1];
 
     ortp_init();
-    rtp_profile_set_payload(&av_profile,0,&payload_type_pcmu);
+    rtp_profile_set_payload(&av_profile,0,&payload_type_pcmu8000);
     RtpSession *rtp = rtp_session_new(RTP_SESSION_SENDRECV);
     rtp_session_set_local_addr(rtp,"0.0.0.0",5004,5005);
     rtp_session_set_remote_addr(rtp, peer_ip,5004);
     rtp_session_enable_rtcp(rtp,1);
 
     bzrtpContext_t *zctx = bzrtp_createBzrtpContext();
-    RtpUserData ud = {0};
-    ud.rtp = rtp;
+    RtpUserData ud = { rtp, NULL };
     bzrtpCallbacks_t cbs = {0};
     cbs.bzrtp_sendData = rtp_send;
+    cbs.bzrtp_startSrtpSession = start_srtp;
     bzrtp_setCallbacks(zctx,&cbs);
-    bzrtp_setUserData(zctx, rtp);
-    bzrtp_setUserData(zctx, &ud);
+    bzrtp_setClientData(zctx,0x1234, &ud);
     bzrtp_initBzrtpContext(zctx,0x1234);
     bzrtp_startChannelEngine(zctx,0x1234);
 
-    while (!bzrtp_isSecure(zctx)) {
-        mblk_t *mp = rtp_session_recvm_with_ts(rtp,NULL);
+    while (ud.srtp == NULL) {
+        mblk_t *mp = rtp_session_recvm_with_ts(rtp,0);
         if (mp) {
             uint8_t *pkt = mp->b_rptr;
             int len = msgdsize(mp);
@@ -58,47 +102,34 @@ int main(int argc, char **argv) {
         bzrtp_iterate(zctx,0x1234,ortp_get_cur_time_ms());
     }
 
-    bzrtpSrtpSecrets_t secrets; memset(&secrets,0,sizeof(secrets));
-    bzrtp_getSrtpSecrets(zctx,0x1234,&secrets);
-    srtp_policy_t policy; srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&policy.rtp);
-    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&policy.rtcp);
-    policy.ssrc.type = ssrc_any_inbound;
-    policy.key = secrets.keyAndSalt;
-    policy.window_size = 128; policy.next = NULL;
-    srtp_policy_t policy_in, policy_out;
-    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&policy_in.rtp);
-    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&policy_in.rtcp);
-    policy_in.ssrc.type = ssrc_any_inbound;
-    policy_in.key = secrets.keyAndSaltRS;
-    policy_in.window_size = 128;
-    policy_in.allow_repeat_tx = 0;
-    policy_in.next = &policy_out;
+    snd_pcm_t *cap, *play;
+    snd_pcm_open(&cap, "default", SND_PCM_STREAM_CAPTURE, 0);
+    snd_pcm_open(&play, "default", SND_PCM_STREAM_PLAYBACK, 0);
+    snd_pcm_set_params(cap, SND_PCM_FORMAT_S16_LE, SND_PCM_ACCESS_RW_INTERLEAVED, 1, 8000, 1, 500000);
+    snd_pcm_set_params(play, SND_PCM_FORMAT_S16_LE, SND_PCM_ACCESS_RW_INTERLEAVED, 1, 8000, 1, 500000);
 
-    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&policy_out.rtp);
-    srtp_crypto_policy_set_aes_cm_128_hmac_sha1_80(&policy_out.rtcp);
-    policy_out.ssrc.type = ssrc_any_outbound;
-    policy_out.key = secrets.keyAndSaltLS;
-    policy_out.window_size = 128;
-    policy_out.allow_repeat_tx = 0;
-    policy_out.next = NULL;
+    struct send_ctx ctx = { rtp, ud.srtp, cap };
+    pthread_t tid;
+    pthread_create(&tid, NULL, send_thread, &ctx);
 
-    srtp_t srtp_session;
-    srtp_create(&srtp_session, &policy);
-    srtp_create(&srtp_session, &policy_in);
-    ud.srtp = srtp_session;
-
-    /* TODO: add ALSA capture/playback and SRTP encrypt/decrypt of RTP payloads */
-    /* TODO: add ALSA capture/playback */
-    mblk_t *mp = rtp_session_recvm_with_ts(rtp,NULL);
-    if (mp) {
-        int len = msgdsize(mp);
-        srtp_unprotect(srtp_session, mp->b_rptr, &len);
-        /* TODO: decode or play payload in mp->b_rptr of length len */
-        freemsg(mp);
+    while (1) {
+        mblk_t *mp = rtp_session_recvm_with_ts(rtp,0);
+        if (mp) {
+            int len = msgdsize(mp);
+            if (srtp_unprotect(ud.srtp, mp->b_rptr, &len) == srtp_err_status_ok) {
+                mp->b_wptr = mp->b_rptr + len;
+                unsigned char *payload;
+                int psize = rtp_get_payload(mp, &payload);
+                snd_pcm_writei(play, payload, psize/2);
+            }
+            freemsg(mp);
+        }
     }
 
-    srtp_dealloc(srtp_session);
-    bzrtp_destroyBzrtpContext(zctx);
+    snd_pcm_close(cap);
+    snd_pcm_close(play);
+    srtp_dealloc(ud.srtp);
+    bzrtp_destroyBzrtpContext(zctx,0x1234);
     rtp_session_destroy(rtp);
     ortp_exit();
     return 0;
