@@ -1,0 +1,10 @@
+# This is a comment
+prefix=/usr/local
+exec_prefix=/usr/local
+
+Name:  bctoolbox
+Description: A common set of tools used by Belledonne Communication's softwares
+Version: 5.5.0
+Libs: -L/usr/local/lib -lbctoolbox
+Libs.private: 
+Cflags: -I/usr/local/include

@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++14 -O2  -Wall -Wuninitialized -Wno-deprecated-declarations -Wno-missing-field-initializers -Werror -Wextra -Wno-unused-parameter -fno-strict-aliasing  CMakeFiles/bench.dir/bench_decaf.cxx.o -o bench  -Wl,-rpath,/home/voip2/Desktop/test/decaf/src ../src/libdecaf.so.0 

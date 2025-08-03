@@ -1,0 +1,7 @@
+/usr/local/include/bzrtp/bzrtp.h
+/usr/local/lib/libbzrtp.a
+/usr/local/share/BZRTP/cmake/BZRTPConfig.cmake
+/usr/local/share/BZRTP/cmake/BZRTPConfigVersion.cmake
+/usr/local/share/BZRTP/cmake/FindPostQuantumCryptoEngine.cmake
+/usr/local/share/BZRTP/cmake/BZRTPTargets.cmake
+/usr/local/share/BZRTP/cmake/BZRTPTargets-noconfig.cmake

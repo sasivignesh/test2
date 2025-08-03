@@ -1,0 +1,2 @@
+/usr/bin/ar qc libpostquantumcryptoengine.a CMakeFiles/postquantumcryptoengine.dir/crypto.cc.o CMakeFiles/postquantumcryptoengine.dir/crypto.c.o
+/usr/bin/ranlib libpostquantumcryptoengine.a

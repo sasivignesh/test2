@@ -1,0 +1,7 @@
+/usr/local/include/postquantumcryptoengine/crypto.h
+/usr/local/include/postquantumcryptoengine/crypto.hh
+/usr/local/lib/libpostquantumcryptoengine.a
+/usr/local/share/PostQuantumCryptoEngine/cmake/PostQuantumCryptoEngineConfig.cmake
+/usr/local/share/PostQuantumCryptoEngine/cmake/PostQuantumCryptoEngineConfigVersion.cmake
+/usr/local/share/PostQuantumCryptoEngine/cmake/PostQuantumCryptoEngineTargets.cmake
+/usr/local/share/PostQuantumCryptoEngine/cmake/PostQuantumCryptoEngineTargets-noconfig.cmake
