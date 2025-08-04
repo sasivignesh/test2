@@ -86,8 +86,12 @@ int main(int argc, char **argv) {
     cbs.bzrtp_sendData = rtp_send;
     cbs.bzrtp_startSrtpSession = start_srtp;
     bzrtp_setCallbacks(zctx,&cbs);
-    bzrtp_setClientData(zctx,0x1234, &ud);
     bzrtp_initBzrtpContext(zctx,0x1234);
+    int rc = bzrtp_setClientData(zctx,0x1234, &ud);
+    if (rc != 0) {
+        fprintf(stderr, "bzrtp_setClientData failed: %d\n", rc);
+        return 1;
+    }
     bzrtp_startChannelEngine(zctx,0x1234);
 
     while (ud.srtp == NULL) {
