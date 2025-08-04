@@ -20,7 +20,14 @@ static int rtp_send(void *clientData, const uint8_t *packet, uint16_t len) {
         return -1;
     }
     RtpUserData *ud = (RtpUserData *)clientData;
-    rtp_session_send_with_ts(ud->rtp, packet, len, 0);
+    mblk_t *mp = allocb(len, 0);
+    if (mp == NULL) {
+        fprintf(stderr, "rtp_send: failed to allocate mblk\n");
+        return -1;
+    }
+    memcpy(mp->b_wptr, packet, len);
+    mp->b_wptr += len;
+    rtp_session_sendm_with_ts(ud->rtp, mp, 0);
     return 0;
 }
 

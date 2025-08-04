@@ -2,10 +2,3 @@ warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libns
 warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libnssutil3.so
 warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libplc4.so
 warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libplds4.so
-warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libnss3.so
-warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libnssutil3.so
-warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libplc4.so
-warning: could not find '.gnu_debugaltlink' file for /lib/x86_64-linux-gnu/libplds4.so
-A syntax error in expression, near `/ s / c'.
-Quit
-Quit
