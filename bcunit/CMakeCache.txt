@@ -23,6 +23,9 @@ BCUnit_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 BCUnit_SOURCE_DIR:STATIC=/home/voip2/Desktop/test/bcunit
 
+//No help, variable specified on the command line.
+BUILD_SHARED_LIBS:UNINITIALIZED=ON
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 

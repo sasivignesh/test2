@@ -3,17 +3,17 @@
 
 # compile C with /usr/bin/cc
 # compile CXX with /usr/bin/c++
-C_DEFINES = -DBCTBX_LOG_DOMAIN=\"ortp\" -DBCTBX_STATIC -DHAVE_CONFIG_H -DORTP_STATIC
+C_DEFINES = -DBCTBX_LOG_DOMAIN=\"ortp\" -DHAVE_CONFIG_H -DORTP_EXPORTS -Dortp_EXPORTS
 
 C_INCLUDES = -I/home/voip2/Desktop/test/ortp/include -I/home/voip2/Desktop/test/ortp/src -I/home/voip2/Desktop/test/ortp
 
-C_FLAGS = 
+C_FLAGS = -fPIC
 
-CXX_DEFINES = -DBCTBX_LOG_DOMAIN=\"ortp\" -DBCTBX_STATIC -DHAVE_CONFIG_H -DORTP_STATIC
+CXX_DEFINES = -DBCTBX_LOG_DOMAIN=\"ortp\" -DHAVE_CONFIG_H -DORTP_EXPORTS -Dortp_EXPORTS
 
 CXX_INCLUDES = -I/home/voip2/Desktop/test/ortp/include -I/home/voip2/Desktop/test/ortp/src -I/home/voip2/Desktop/test/ortp
 
-CXX_FLAGS = -std=gnu++17
+CXX_FLAGS = -std=gnu++17 -fPIC
 
 # Custom flags: src/CMakeFiles/ortp.dir/audiobandwidthestimator.c.o_FLAGS =  -Wall -Wuninitialized -Wno-error=pragmas -Werror -Wextra -Wunused-parameter -Wno-error=unknown-pragmas -Wno-missing-field-initializers -fno-strict-aliasing -Wno-error=deprecated -Wno-error=deprecated-declarations -Werror -Wstrict-prototypes
 

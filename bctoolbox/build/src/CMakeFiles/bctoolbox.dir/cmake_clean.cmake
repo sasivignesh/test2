@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  ".1"
   "CMakeFiles/bctoolbox.dir/containers/list.c.o"
   "CMakeFiles/bctoolbox.dir/containers/list.c.o.d"
   "CMakeFiles/bctoolbox.dir/containers/map.cc.o"
@@ -45,8 +46,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/bctoolbox.dir/vfs/vfs_encryption_module_dummy.cc.o.d"
   "CMakeFiles/bctoolbox.dir/vfs/vfs_standard.c.o"
   "CMakeFiles/bctoolbox.dir/vfs/vfs_standard.c.o.d"
-  "libbctoolbox.a"
   "libbctoolbox.pdb"
+  "libbctoolbox.so"
+  "libbctoolbox.so.1"
 )
 
 # Per-language clean rules from dependency scanning.

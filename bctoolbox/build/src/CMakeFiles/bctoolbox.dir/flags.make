@@ -3,13 +3,13 @@
 
 # compile C with /usr/bin/cc
 # compile CXX with /usr/bin/c++
-C_DEFINES = -DBCTBX_STATIC -DHAVE_CONFIG_H
+C_DEFINES = -DHAVE_CONFIG_H -Dbctoolbox_EXPORTS
 
 C_INCLUDES = -I/home/voip2/Desktop/test/bctoolbox/include -I/home/voip2/Desktop/test/bctoolbox/src -I/home/voip2/Desktop/test/bctoolbox/build -isystem /usr/local/include/decaf
 
 C_FLAGS = -fPIC
 
-CXX_DEFINES = -DBCTBX_STATIC -DHAVE_CONFIG_H
+CXX_DEFINES = -DHAVE_CONFIG_H -Dbctoolbox_EXPORTS
 
 CXX_INCLUDES = -I/home/voip2/Desktop/test/bctoolbox/include -I/home/voip2/Desktop/test/bctoolbox/src -I/home/voip2/Desktop/test/bctoolbox/build -isystem /usr/local/include/decaf
 

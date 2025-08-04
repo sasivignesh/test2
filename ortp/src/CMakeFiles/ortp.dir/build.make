@@ -720,57 +720,62 @@ ortp_OBJECTS = \
 # External object files for target ortp
 ortp_EXTERNAL_OBJECTS =
 
-src/libortp.a: src/CMakeFiles/ortp.dir/audiobandwidthestimator.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/avprofile.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/congestiondetector.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/event.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/extremum.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/jitterctl.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/kalmanrls.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/logging.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/nack.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/netsim.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/ortp.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/payloadtype.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/port.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/posixtimer.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtcp.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtcp_fb.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtcp_xr.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtcpparse.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpaudiolevel.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpframemarking.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpparse.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpprofile.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpsession.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpsession_inet.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpsignaltable.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtptimer.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/scheduler.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/sessionset.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/str_utils.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/telephonyevents.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/utils.c.o
-src/libortp.a: src/CMakeFiles/ortp.dir/dblk.cc.o
-src/libortp.a: src/CMakeFiles/ortp.dir/rtpbundle.cc.o
-src/libortp.a: src/CMakeFiles/ortp.dir/videobandwidthestimator.cc.o
-src/libortp.a: src/CMakeFiles/ortp.dir/bandwidth-measurer.cc.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/fecstream.cc.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/fec-stream-stats.cc.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/fec-encoder.cpp.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/packet-api.cpp.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/receive-cluster.cpp.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/fec-packets-connection.cpp.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/fec-params.cpp.o
-src/libortp.a: src/CMakeFiles/ortp.dir/fecstream/overhead.cpp.o
-src/libortp.a: src/CMakeFiles/ortp.dir/build.make
-src/libortp.a: src/CMakeFiles/ortp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/voip2/Desktop/test/ortp/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Linking CXX static library libortp.a"
-	cd /home/voip2/Desktop/test/ortp/src && $(CMAKE_COMMAND) -P CMakeFiles/ortp.dir/cmake_clean_target.cmake
+src/libortp.so.15: src/CMakeFiles/ortp.dir/audiobandwidthestimator.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/avprofile.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/congestiondetector.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/event.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/extremum.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/jitterctl.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/kalmanrls.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/logging.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/nack.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/netsim.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/ortp.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/payloadtype.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/port.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/posixtimer.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtcp.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtcp_fb.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtcp_xr.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtcpparse.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpaudiolevel.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpframemarking.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpparse.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpprofile.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpsession.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpsession_inet.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpsignaltable.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtptimer.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/scheduler.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/sessionset.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/str_utils.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/telephonyevents.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/utils.c.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/dblk.cc.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/rtpbundle.cc.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/videobandwidthestimator.cc.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/bandwidth-measurer.cc.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/fecstream.cc.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/fec-stream-stats.cc.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/fec-encoder.cpp.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/packet-api.cpp.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/receive-cluster.cpp.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/fec-packets-connection.cpp.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/fec-params.cpp.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/fecstream/overhead.cpp.o
+src/libortp.so.15: src/CMakeFiles/ortp.dir/build.make
+src/libortp.so.15: /usr/local/lib/libbctoolbox.so.1
+src/libortp.so.15: /usr/lib/x86_64-linux-gnu/libm.so
+src/libortp.so.15: src/CMakeFiles/ortp.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/voip2/Desktop/test/ortp/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Linking CXX shared library libortp.so"
 	cd /home/voip2/Desktop/test/ortp/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ortp.dir/link.txt --verbose=$(VERBOSE)
+	cd /home/voip2/Desktop/test/ortp/src && $(CMAKE_COMMAND) -E cmake_symlink_library libortp.so.15 libortp.so.15 libortp.so
+
+src/libortp.so: src/libortp.so.15
+	@$(CMAKE_COMMAND) -E touch_nocreate src/libortp.so
 
 # Rule to build all files generated by this target.
-src/CMakeFiles/ortp.dir/build: src/libortp.a
+src/CMakeFiles/ortp.dir/build: src/libortp.so
 .PHONY : src/CMakeFiles/ortp.dir/build
 
 src/CMakeFiles/ortp.dir/clean:

@@ -88,7 +88,7 @@ endif()
 
 # We must propagate the public dependencies and the private dependencies for static build
 include(CMakeFindDependencyMacro)
-if()
+if(ON)
 else()
 	list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 	if()

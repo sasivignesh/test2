@@ -20,6 +20,9 @@ BCToolbox_DIR:PATH=/usr/local/share/BCToolbox/cmake
 //The directory containing a CMake configuration file for BCUnit.
 BCUnit_DIR:PATH=/usr/local/share/BCUnit/cmake
 
+//No help, variable specified on the command line.
+BUILD_SHARED_LIBS:UNINITIALIZED=ON
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 
@@ -536,8 +539,6 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 DOXYGEN_DOT_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DOXYGEN_EXECUTABLE
 DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: DTLS_SRTP_AVAILABLE
-DTLS_SRTP_AVAILABLE-ADVANCED:INTERNAL=1
 //Have symbol mbedtls_ssl_conf_dtls_srtp_protection_profiles
 DTLS_SRTP_AVAILABLE:INTERNAL=
 //Details about finding MbedTLS

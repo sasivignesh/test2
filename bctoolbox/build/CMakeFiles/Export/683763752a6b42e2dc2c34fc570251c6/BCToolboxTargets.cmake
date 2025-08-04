@@ -56,17 +56,11 @@ if(_IMPORT_PREFIX STREQUAL "/")
 endif()
 
 # Create imported target bctoolbox
-add_library(bctoolbox STATIC IMPORTED)
+add_library(bctoolbox SHARED IMPORTED)
 
 set_target_properties(bctoolbox PROPERTIES
-  INTERFACE_COMPILE_DEFINITIONS "BCTBX_STATIC"
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:rt>;\$<LINK_ONLY:dl>;\$<LINK_ONLY:mbedtls>;\$<LINK_ONLY:mbedx509>;\$<LINK_ONLY:mbedcrypto>;\$<LINK_ONLY:decaf-static>"
 )
-
-if(CMAKE_VERSION VERSION_LESS 2.8.12)
-  message(FATAL_ERROR "This file relies on consumers using CMake 2.8.12 or greater.")
-endif()
 
 # Load information for each installed configuration.
 file(GLOB _cmake_config_files "${CMAKE_CURRENT_LIST_DIR}/BCToolboxTargets-*.cmake")

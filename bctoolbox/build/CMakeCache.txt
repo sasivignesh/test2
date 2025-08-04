@@ -23,6 +23,9 @@ BCToolbox_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 BCToolbox_SOURCE_DIR:STATIC=/home/voip2/Desktop/test/bctoolbox
 
+//No help, variable specified on the command line.
+BUILD_SHARED_LIBS:UNINITIALIZED=ON
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 
@@ -301,7 +304,7 @@ ENABLE_DECAF:BOOL=ON
 ENABLE_DEFAULT_LOG_HANDLER:BOOL=ON
 
 //Enable mbedtls support
-ENABLE_MBEDTLS:BOOL=ON
+ENABLE_MBEDTLS:BOOL=YES
 
 //Enable openssl support
 ENABLE_OPENSSL:BOOL=OFF

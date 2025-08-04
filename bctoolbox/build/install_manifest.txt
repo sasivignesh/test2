@@ -18,7 +18,8 @@
 /usr/local/include/bctoolbox/param_string.h
 /usr/local/include/bctoolbox/crypto.h
 /usr/local/include/bctoolbox/crypto.hh
-/usr/local/lib/libbctoolbox.a
+/usr/local/lib/libbctoolbox.so.1
+/usr/local/lib/libbctoolbox.so
 /usr/local/share/BCToolbox/cmake/BCToolboxTargets.cmake
 /usr/local/share/BCToolbox/cmake/BCToolboxTargets-noconfig.cmake
 /usr/local/share/BCToolbox/cmake/MakeArchive.cmake

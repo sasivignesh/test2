@@ -17,6 +17,7 @@ target_link_libraries(p2p_call
         ${SRTP_LIBRARIES}
         ${ALSA_LIBRARIES}
         pthread
+        m
 )
 target_link_directories(p2p_call PRIVATE
     ${BZRTP_LIBRARY_DIRS}
