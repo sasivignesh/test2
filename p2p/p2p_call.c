@@ -6,6 +6,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <string.h>
+#include <arpa/inet.h>
 
 #define ZRTP_PAYLOAD_TYPE 106
 
@@ -81,14 +82,21 @@ static void *send_thread(void *p) {
 }
 
 int main(int argc, char **argv) {
-    if (argc != 2) { fprintf(stderr, "usage: %s <peer_ip>\n", argv[0]); return 1; }
-    const char *peer_ip = argv[1];
+    int listener = 0;
+    const char *peer_ip = NULL;
+    if (argc == 2) {
+        if (strcmp(argv[1], "--listen") == 0) listener = 1;
+        else peer_ip = argv[1];
+    } else {
+        fprintf(stderr, "usage: %s <peer_ip> | --listen\n", argv[0]);
+        return 1;
+    }
 
     ortp_init();
     rtp_profile_set_payload(&av_profile,0,&payload_type_pcmu8000);
     RtpSession *rtp = rtp_session_new(RTP_SESSION_SENDRECV);
     rtp_session_set_local_addr(rtp,"0.0.0.0",5004,5005);
-    rtp_session_set_remote_addr(rtp, peer_ip,5004);
+    if (!listener) rtp_session_set_remote_addr(rtp, peer_ip,5004);
     rtp_session_enable_rtcp(rtp,1);
 
     bzrtpContext_t *zctx = bzrtp_createBzrtpContext();
@@ -103,18 +111,30 @@ int main(int argc, char **argv) {
         fprintf(stderr, "bzrtp_setClientData failed: %d\n", rc);
         return 1;
     }
-    bzrtp_startChannelEngine(zctx,0x1234);
+    int remote_set = listener ? 0 : 1;
+    if (!listener) bzrtp_startChannelEngine(zctx,0x1234);
 
     while (ud.srtp == NULL) {
         mblk_t *mp = rtp_session_recvm_with_ts(rtp,0);
         if (mp) {
+            if (!remote_set) {
+                char ip[64];
+                if (mp->recv_addr.family == AF_INET)
+                    inet_ntop(AF_INET, &mp->recv_addr.addr.ipi_addr, ip, sizeof(ip));
+                else
+                    inet_ntop(AF_INET6, &mp->recv_addr.addr.ipi6_addr, ip, sizeof(ip));
+                rtp_session_set_remote_addr(rtp, ip, ntohs(mp->recv_addr.port));
+                bzrtp_startChannelEngine(zctx,0x1234);
+                remote_set = 1;
+            }
             uint8_t *pkt = mp->b_rptr;
             int len = msgdsize(mp);
             if (rtp_get_payload_type(mp)==ZRTP_PAYLOAD_TYPE)
                 bzrtp_processMessage(zctx,0x1234,pkt,len);
             freemsg(mp);
         }
-        bzrtp_iterate(zctx,0x1234,ortp_get_cur_time_ms());
+        if (remote_set)
+            bzrtp_iterate(zctx,0x1234,ortp_get_cur_time_ms());
     }
 
     snd_pcm_t *cap, *play;
