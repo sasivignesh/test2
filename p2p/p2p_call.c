@@ -15,6 +15,10 @@ typedef struct {
 } RtpUserData;
 
 static int rtp_send(void *clientData, const uint8_t *packet, uint16_t len) {
+    if (clientData == NULL) {
+        fprintf(stderr, "rtp_send: clientData is NULL\n");
+        return -1;
+    }
     RtpUserData *ud = (RtpUserData *)clientData;
     rtp_session_send_with_ts(ud->rtp, packet, len, 0);
     return 0;
