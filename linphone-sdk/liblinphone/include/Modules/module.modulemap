@@ -1,7 +1,0 @@
-// Please see the note in the twin of this file in wrappers/swift/Modules/module.modulemap.
-
-module linphone {
-	umbrella header "swift-umbrella.h"
-	export *
-	module * { export * }
-}

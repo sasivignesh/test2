@@ -1,4 +1,0 @@
-public struct linphonesw {
-	public static let sdkVersion = "@LINPHONESDK_VERSION@"
-	public static let sdkBranch = "@LINPHONESDK_BRANCH@"
-}

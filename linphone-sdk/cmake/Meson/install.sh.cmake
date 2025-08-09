@@ -1,5 +1,0 @@
-#!/bin/sh
-
-export PATH="@EP_PROGRAM_PATH@"
-
-@LINPHONESDK_NINJA_PROGRAM@ -C @EP_BUILD_DIR@ install
